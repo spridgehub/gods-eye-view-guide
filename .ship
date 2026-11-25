@@ -1,0 +1,4 @@
+REPO=spridgehub/gods-eye-view-guide
+BRANCH=main
+PAGES=/docs
+SITE=https://spridgehub.github.io/gods-eye-view-guide/

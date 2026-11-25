@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>God's Eye View: a guide · spridgehub</title>
+<meta name="description" content="A plain-English guide to God's Eye View, the open source live 3D globe of flights, ships, satellites, weather and public cameras.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..750&family=Geist+Mono:wght@400..700&display=swap">
+<style>
+:root{
+  --font-ui:"Geist",-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font-num:"Geist Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --carbon:#0b0b0d;--tarmac:#111115;--tarmac-up:#17171c;--pit:#08080a;
+  --grid-line:rgb(255 255 255 / .08);--grid-line-strong:rgb(255 255 255 / .14);
+  --ink-1:#f1f1f3;--ink-2:#c3c3cb;--ink-3:#8f8f99;--ink-4:#80808c;
+  --accent:#4fe3ff;--accent-dim:rgb(79 227 255 / .12);
+  --live:#22e07a;--est:#ffd400;
+  --r-control:6px;--r-panel:12px;--r-pill:999px;
+}
+*{box-sizing:border-box}
+html{background:var(--carbon);color:var(--ink-1);font:400 16px/1.6 var(--font-ui);-webkit-font-smoothing:antialiased}
+body{margin:0}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.nav{position:sticky;top:0;z-index:20;border-bottom:1px solid var(--grid-line);background:color-mix(in srgb,var(--carbon) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.nav>div{max-width:1080px;margin:0 auto;height:56px;padding:0 20px;display:flex;align-items:center;gap:20px}
+.mark{display:inline-flex;align-items:center;gap:10px;color:var(--ink-1);font:750 14px/1 var(--font-ui);letter-spacing:.07em;text-transform:uppercase}
+.mark:hover{text-decoration:none;color:#fff}
+.bars{display:inline-flex;align-items:flex-end;gap:3px;height:22px}
+.bars i{display:block;width:4px;border-radius:2px;background:var(--accent)}
+.nav nav{margin-left:auto;display:flex;gap:20px}
+.nav nav a{color:var(--ink-3);font-size:13px;font-weight:500}
+.nav nav a:hover{color:var(--ink-1);text-decoration:none}
+main{max-width:1080px;margin:0 auto;padding:0 20px 80px}
+.label{font:600 11px/1 var(--font-ui);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 14px}
+header.hero{padding:64px 0 32px}
+h1{font-size:clamp(34px,5vw,54px);line-height:1.05;letter-spacing:-.02em;margin:0 0 16px;font-weight:700}
+h1 span{color:var(--accent)}
+.lede{font-size:19px;color:var(--ink-2);max-width:680px;margin:0 0 28px}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;height:40px;padding:0 18px;border-radius:var(--r-pill);font-weight:600;font-size:14px;border:1px solid var(--grid-line-strong);color:var(--ink-1)}
+.btn.primary{background:var(--accent);color:#04161b;border-color:var(--accent)}
+.btn:hover{text-decoration:none;background:var(--tarmac-up)}
+.btn.primary:hover{background:#7debff}
+figure.shot{margin:40px 0 0;border:1px solid var(--grid-line);border-radius:var(--r-panel);overflow:hidden;background:var(--pit)}
+figure.shot img{display:block;width:100%;height:auto}
+figure.shot figcaption{padding:10px 14px;font-size:12px;color:var(--ink-4);border-top:1px solid var(--grid-line)}
+section{padding-top:64px}
+h2{font-size:26px;letter-spacing:-.01em;margin:0 0 10px;font-weight:650}
+.sub{color:var(--ink-3);max-width:680px;margin:0 0 28px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--grid-line);border:1px solid var(--grid-line);border-radius:var(--r-panel);overflow:hidden;margin-top:48px}
+.stats div{background:var(--tarmac);padding:18px 20px}
+.stats b{display:block;font:600 26px/1.1 var(--font-num);font-variant-numeric:tabular-nums}
+.stats span{font-size:13px;color:var(--ink-3)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.card{background:var(--tarmac);border:1px solid var(--grid-line);border-radius:var(--r-panel);padding:20px}
+.card h3{margin:0 0 6px;font-size:16px;font-weight:650}
+.card p{margin:0;color:var(--ink-2);font-size:14.5px}
+table{width:100%;border-collapse:collapse;background:var(--tarmac);border:1px solid var(--grid-line);border-radius:var(--r-panel);overflow:hidden;font-size:14.5px}
+th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--grid-line);vertical-align:top}
+th{background:var(--pit);font:600 11px/1 var(--font-ui);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;white-space:nowrap}
+.pill{display:inline-block;font:600 11px/1 var(--font-ui);letter-spacing:.06em;text-transform:uppercase;padding:5px 9px;border-radius:var(--r-pill);white-space:nowrap}
+.pill.live{color:var(--live);background:rgb(34 224 122 / .12)}
+.pill.est{color:var(--est);background:rgb(255 212 0 / .12)}
+.pill.key{color:var(--ink-2);background:var(--tarmac-up)}
+.steps{counter-reset:s;display:grid;gap:14px}
+.step{background:var(--tarmac);border:1px solid var(--grid-line);border-radius:var(--r-panel);padding:20px 20px 20px 64px;position:relative}
+.step::before{counter-increment:s;content:counter(s);position:absolute;left:20px;top:18px;width:28px;height:28px;border-radius:50%;background:var(--accent-dim);color:var(--accent);font:600 14px/28px var(--font-num);text-align:center}
+.step h3{margin:0 0 6px;font-size:16px}
+.step p{margin:0 0 10px;color:var(--ink-2);font-size:14.5px}
+pre{margin:0;background:var(--pit);border:1px solid var(--grid-line);border-radius:var(--r-control);padding:12px 14px;overflow-x:auto;font:400 13px/1.6 var(--font-num);color:var(--ink-2)}
+.note{border-left:2px solid var(--accent);padding:4px 0 4px 16px;color:var(--ink-2);max-width:760px}
+footer{border-top:1px solid var(--grid-line);margin-top:80px;padding:28px 20px;max-width:1080px;margin-left:auto;margin-right:auto;font-size:13px;color:var(--ink-4)}
+footer p{margin:0 0 6px}
+</style>
+</head>
+<body>
+<div class="nav"><div>
+  <a class="mark" href="https://spridgehub.github.io/"><span class="bars" aria-hidden="true"><i style="height:6px;opacity:.4"></i><i style="height:10px;opacity:.55"></i><i style="height:14px;opacity:.7"></i><i style="height:18px;opacity:.85"></i><i style="height:22px"></i></span>God's Eye View</a>
+  <nav><a href="#features">Features</a><a href="#data">Data</a><a href="#run">Run it</a></nav>
+</div></div>
+
+<main>
+<header class="hero">
+  <p class="label">A guide by spridgehub</p>
+  <h1>A spy satellite view of Earth, <span>built from real public data.</span></h1>
+  <p class="lede">God's Eye View is an open source 3D globe that runs in your browser. It shows live flights, ships, satellites, weather, earthquakes and public cameras in one place. Click on any of them to follow it.</p>
+  <div class="btns">
+    <a class="btn primary" href="https://github.com/bilawalsidhu/gods-eye-view">Source on GitHub</a>
+    <a class="btn" href="https://godseyeview.ai">Official site</a>
+    <a class="btn" href="https://www.youtube.com/watch?v=GRJaKcXZS94">Video walkthrough</a>
+  </div>
+  <figure class="shot">
+    <img src="https://raw.githubusercontent.com/bilawalsidhu/gods-eye-view/main/docs/media/site/hero.webp" alt="God's Eye View showing a 3D globe with live data layers" loading="eager" width="1600" height="900">
+    <figcaption>Screenshot from the God's Eye View project (MIT licence).</figcaption>
+  </figure>
+  <div class="stats">
+    <div><b>67k</b><span>GitHub stars</span></div>
+    <div><b>#1</b><span>on GitHub Trending</span></div>
+    <div><b>0</b><span>API keys needed to start</span></div>
+    <div><b>MIT</b><span>open source licence</span></div>
+  </div>
+</header>
+
+<section id="what">
+  <p class="label">What it is</p>
+  <h2>One globe for everything Earth is already broadcasting</h2>
+  <p class="sub">Aircraft transponders, ship beacons, satellite orbits, seismographs and public webcams each show part of what is happening on Earth. This project puts them all on one photorealistic globe. You can zoom from the whole planet down to a single plane, ship or street. It was made by Bilawal Sidhu and grew out of his YouTube series of the same name.</p>
+  <p class="note">It looks like a spy agency tool, but every feed is public and you can read every line of the code. A few layers are estimates, such as simulated road traffic and approximate camera angles, and the app labels them.</p>
+</section>
+
+<section id="features">
+  <p class="label">Features</p>
+  <h2>What you can do with it</h2>
+  <p class="sub">The main features, in plain terms.</p>
+  <div class="grid">
+    <div class="card"><h3>Track anything</h3><p>Click a plane, ship, satellite or camera. The view locks on, draws a fading trail and shows its details.</p></div>
+    <div class="card"><h3>Ride in the cockpit</h3><p>Jump inside a tracked flight and watch the terrain pass below. When you get close, planes, ships and trains appear as 3D models.</p></div>
+    <div class="card"><h3>Ask the planet</h3><p>Ask questions out loud, such as "what satellites pass over me tonight?", and the answer appears on the globe. This needs an OpenAI key.</p></div>
+    <div class="card"><h3>Weather in 4D</h3><p>Forecast winds, rain radar, lightning and cyclone tracks with forecast cones. You can scrub backwards through recent cloud images.</p></div>
+    <div class="card"><h3>Fresh satellite photos</h3><p>Draw a box around a wildfire or flood and it fetches recent Sentinel-2 images, laid over the 3D terrain.</p></div>
+    <div class="card"><h3>Sensor modes</h3><p>Switch the view to thermal (FLIR), night vision, CRT or a military-style display, with boxes drawn around everything on screen.</p></div>
+    <div class="card"><h3>Radio and SDR</h3><p>Tune into about 750 world radio stations by location, or connect your own SDR receiver and map what it picks up.</p></div>
+    <div class="card"><h3>Director mode</h3><p>Draw on the map, plan camera moves and record smooth fly-throughs. You can share any view as a link.</p></div>
+    <div class="card"><h3>Agent access (MCP)</h3><p>AI agents can query the same live data through a built-in MCP server and add their findings to a shared map.</p></div>
+  </div>
+</section>
+
+<section id="data">
+  <p class="label">Data</p>
+  <h2>What is on the globe</h2>
+  <p class="sub">Most layers work with no API key. Free or paid keys switch on extra layers.</p>
+  <table>
+    <thead><tr><th>Layer</th><th>Source</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Satellite map and terrain</td><td>Esri World Imagery, with OpenStreetMap as a backup</td><td><span class="pill live">Keyless</span></td></tr>
+      <tr><td>Flights</td><td>OpenSky Network and military traffic feeds</td><td><span class="pill live">Keyless</span></td></tr>
+      <tr><td>Satellites</td><td>Public orbital data, from GPS to Starlink</td><td><span class="pill live">Keyless</span></td></tr>
+      <tr><td>Earthquakes, launches, radio</td><td>USGS, Launch Library 2, world radio directories</td><td><span class="pill live">Keyless</span></td></tr>
+      <tr><td>Weather</td><td>GFS and ECMWF forecasts, radar, lightning, NHC and JTWC cyclone tracks</td><td><span class="pill live">Keyless</span></td></tr>
+      <tr><td>Trains</td><td>30 operator GTFS-Realtime feeds in ten countries</td><td><span class="pill live">Keyless</span></td></tr>
+      <tr><td>Public cameras</td><td>Thousands of public traffic and city webcams</td><td><span class="pill est">Positions estimated</span></td></tr>
+      <tr><td>Road traffic</td><td>Simulated along real roads from aggregate data</td><td><span class="pill est">Simulated</span></td></tr>
+      <tr><td>Ships</td><td>AISStream</td><td><span class="pill key">Free key</span></td></tr>
+      <tr><td>Wildfires</td><td>NASA FIRMS</td><td><span class="pill key">Free key</span></td></tr>
+      <tr><td>Photorealistic 3D cities</td><td>Cesium ion or Google 3D Tiles</td><td><span class="pill key">Key</span></td></tr>
+      <tr><td>Voice questions</td><td>OpenAI</td><td><span class="pill key">Paid key</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="run">
+  <p class="label">Run it</p>
+  <h2>Run it yourself</h2>
+  <p class="sub">It runs on your own computer, because a small local server fetches the live feeds. That is also why this page is a guide and not the globe itself: a static host like GitHub Pages cannot run that server.</p>
+  <div class="steps">
+    <div class="step"><h3>One click</h3><p>Install <a href="https://desktop.pinokio.co/">Pinokio</a> 8.2 or later, open <a href="https://pinokio.co/apps/github-com-bilawalsidhu-gods-eye-view">God's Eye View in Pinokio</a>, then press Install and Start. Works on Windows, macOS and Linux.</p></div>
+    <div class="step"><h3>Terminal</h3><p>Needs Node.js 24.14+ or 26.x. Then open <code>http://localhost:4173</code>.</p>
+<pre>git clone https://github.com/bilawalsidhu/gods-eye-view.git
+cd gods-eye-view
+npm ci
+npm run doctor
+npm run dev</pre></div>
+    <div class="step"><h3>Docker</h3><p>No Node install needed. Your keys, cache and logs stay in the cloned folder.</p>
+<pre>git clone https://github.com/bilawalsidhu/gods-eye-view.git
+cd gods-eye-view
+docker compose up</pre></div>
+  </div>
+  <p class="note" style="margin-top:24px">If you share it on your network, anyone who can reach it can use your API keys. Set spending limits with each provider before you add paid keys.</p>
+</section>
+</main>
+
+<footer>
+  <p>This is an unofficial guide. spridgehub is not affiliated with the God's Eye View project. God's Eye View™ is a trademark of Metaversity LLC, used under licence by Halfpixel, Inc.</p>
+  <p>Project source: <a href="https://github.com/bilawalsidhu/gods-eye-view">bilawalsidhu/gods-eye-view</a> (MIT). Screenshot from that repository. More projects at <a href="https://spridgehub.github.io/">spridgehub.github.io</a>.</p>
+</footer>
+</body>
+</html>
